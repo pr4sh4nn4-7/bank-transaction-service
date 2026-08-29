@@ -1,0 +1,31 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transaction-deployment
+  labels:
+    app: transaction-deploy
+spec:
+  selector:
+    matchLabels:
+      app: transaction-deploy
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: transaction-deploy
+    spec:
+      # initContainers:
+      # Init containers are exactly like regular containers, except:
+      # - Init containers always run to completion.
+      # - Each init container must complete successfully before the next one starts.
+      containers:
+        - name: transaction-deploy
+          image: v4gish7/transaction-service
+          envFrom:
+            - secretRef:
+                name: myenv
+          ports:
+            - containerPort: 8082
+      restartPolicy: Always
+---

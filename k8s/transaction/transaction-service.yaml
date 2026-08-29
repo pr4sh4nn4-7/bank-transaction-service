@@ -1,0 +1,16 @@
+# https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: transaction-service
+  namespace: default
+spec:
+  selector:
+    app: transaction-deploy
+  type: LoadBalancer ## currently set for testing only . never expose a service. set it ClusterIp and expose a reverse proxy to the public not the backend service itselfe
+  ports:
+    - name: transaction-service
+      protocol: "TCP"
+      port: 8082
+      targetPort: 8082
+---
